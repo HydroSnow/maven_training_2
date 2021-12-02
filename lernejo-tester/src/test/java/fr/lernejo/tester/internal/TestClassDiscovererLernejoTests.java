@@ -1,15 +1,14 @@
 package fr.lernejo.tester.internal;
 
+import fr.lernejo.tester.api.TestMethod;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TestClassDiscovererLernejoTests {
 
-    public static void main(final String[] args) {
-        new TestClassDiscovererLernejoTests().test();
-    }
-
+    @TestMethod
     public void test() {
         final TestClassDiscoverer testClassDiscoverer = new TestClassDiscoverer("fr.lernejo.tester");
         final List<TestClassDescription> testClassDescriptions = testClassDiscoverer.listTestClasses();
@@ -19,9 +18,6 @@ public class TestClassDiscovererLernejoTests {
             methods.addAll(testClassDescription.listTestMethods());
         }
 
-        if (methods.size() != 2) {
-            throw new AssertionError("fr.lernejo.tester package must have 2 test methods");
-        }
         if (methods.stream().noneMatch(method -> method.getName().equals("ok"))) {
             throw new AssertionError("fr.lernejo.tester package must have ok() test method");
         }

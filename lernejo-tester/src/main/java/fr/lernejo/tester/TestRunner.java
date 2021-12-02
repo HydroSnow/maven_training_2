@@ -25,11 +25,12 @@ public class TestRunner {
         long koTests = 0;
         final long allStart = System.currentTimeMillis();
         for (final Method method : methods) {
-            System.out.println(method.getClass().getName() + "#" + method.getName());
+            final Class<?> clazz = method.getDeclaringClass();
+            System.out.print(clazz.getName() + "#" + method.getName());
 
             final long methodStart = System.currentTimeMillis();
             try {
-                final Object testInstance = method.getClass().getConstructor().newInstance();
+                final Object testInstance = clazz.getDeclaredConstructor().newInstance();
                 method.invoke(testInstance);
                 okTests++;
                 System.out.print(" OK");
@@ -38,6 +39,7 @@ public class TestRunner {
                 System.out.print(" KO");
             } catch (final NoSuchMethodException | IllegalAccessException | InstantiationException e) {
                 e.printStackTrace();
+                System.out.print(" ERROR");
             }
             final long methodTime = System.currentTimeMillis() - methodStart;
             System.out.println(" " + methodTime + " ms");
