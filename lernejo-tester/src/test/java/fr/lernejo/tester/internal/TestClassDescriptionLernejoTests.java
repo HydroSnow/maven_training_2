@@ -14,8 +14,15 @@ public class TestClassDescriptionLernejoTests {
     public void test() {
         final TestClassDescription testClassDescription = new TestClassDescription(SomeLernejoTests.class);
         final List<Method> methods = testClassDescription.listTestMethods();
-        for (final Method method : methods) {
-            System.out.println(method);
+
+        if (methods.size() != 2) {
+            throw new AssertionError("SomeLernejoTests class must have 2 test methods");
+        }
+        if (methods.stream().noneMatch(method -> method.getName().equals("ok"))) {
+            throw new AssertionError("SomeLernejoTests class must have ok() test method");
+        }
+        if (methods.stream().noneMatch(method -> method.getName().equals("ko"))) {
+            throw new AssertionError("SomeLernejoTests class must have ko() test method");
         }
     }
 }
